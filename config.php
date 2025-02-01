@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect("localhost", "root", "", "todo")
+$db = mysqli_connect("db", "root", "", "todo")
     or
     die("Connection failed: " . mysqli_connect_error());
 ?>
