@@ -1,8 +1,10 @@
 # Use the official PHP image with Apache
 FROM php:8.0-apache
 
-# Install necessary extensions for PostgreSQL
-RUN docker-php-ext-install pdo_pgsql pgsql
+# Install necessary system dependencies for PostgreSQL
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo_pgsql pgsql
 
 # Enable Apache's mod_rewrite
 RUN a2enmod rewrite
