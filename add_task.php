@@ -21,7 +21,9 @@ try {
     // Execute the query
     $stmt->execute();
 
-    echo "Task added successfully!";
+    // Redirect to the homepage after successful addition
+    header('Location: index.php');
+    exit(); // Ensure no further code is executed after the redirect
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
