@@ -12,6 +12,7 @@
     <div class="input-area">
       <form method="POST" action="add_task.php">
         <input type="text" name="task" placeholder="write your tasks here..." required />
+        <input type="hidden" name="status" value="Pending" />
         <button class="btn" name="add">Add Task</button>
       </form>
     </div>
