@@ -27,29 +27,22 @@
       <tbody>
         <?php
         require 'config.php';
-        $fetchingtasks = mysqli_query($conn, "SELECT * FROM `task` ORDER BY `task_id` ASC")
-          or die(mysqli_error($conn));
-        $count = 1;
-        while ($fetch = $fetchingtasks->fetch_array()) {
+
+        try {
+          // Fetch all tasks from the database, ordered by task_id
+          $stmt = $conn->query("SELECT * FROM task ORDER BY task_id ASC");
+
+          $count = 1;
+          while ($fetch = $stmt->fetch(PDO::FETCH_ASSOC)) {
         ?>
           <tr class="border-bottom">
             <td><?php echo $count++; ?></td>
-            <td><?php echo $fetch['task']; ?></td>
-            <td><?php echo $fetch['status']; ?></td>
+            <td><?php echo htmlspecialchars($fetch['task']); ?></td>
+            <td><?php echo htmlspecialchars($fetch['status']); ?></td>
             <td colspan="2" class="action">
               <?php
               if ($fetch['status'] != "Done") {
-                echo '<a href="update_task.php?task_id=' . $fetch['task_id'] . '" class="btn-completed">Mark as Completed</a>';
+                echo '<a href="update_task.php?task_id=' . htmlspecialchars($fetch['task_id']) . '" class="btn-completed">Mark as Completed</a>';
               }
               ?>
-              <a href="delete_task.php?task_id=<?php echo $fetch['task_id']; ?>" class="btn-remove">Delete</a>
-            </td>
-          </tr>
-        <?php
-        }
-        ?>
-      </tbody>
-    </table>
-  </div>
-</body>
-</html>
+              <a href="delete_task.php?task_id
