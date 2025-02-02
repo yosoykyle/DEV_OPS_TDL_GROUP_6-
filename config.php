@@ -1,13 +1,15 @@
 <?php
-ob_start(); // Start output buffering
+$host = getenv('DB_HOST');
+$dbname = getenv('DB_NAME');
+$user = getenv('DB_USER');
+$password = getenv('DB_PASSWORD');
 
-$host = getenv('DB_HOST') ?: 'db';
-$user = getenv('DB_USER') ?: 'devops_user';
-$password = getenv('DB_PASSWORD') ?: 'devops_password';
-$dbname = getenv('DB_NAME') ?: 'devops_db';
-$conn = new mysqli($host, $user, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Use PDO for PostgreSQL connection
+try {
+    $dsn = "pgsql:host=$host;port=5432;dbname=$dbname";
+    $conn = new PDO($dsn, $user, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
-ob_end_flush(); // Send the output buffer to the browser
 ?>
