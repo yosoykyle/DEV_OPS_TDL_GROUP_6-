@@ -1,18 +1,20 @@
 <?php
-require_once 'config.php';
+// Get the database connection from config.php
+require 'config.php';
 
-if (isset($_POST['add']) && !empty($_POST['task'])) {
-    $task = mysqli_real_escape_string($conn, $_POST['task']);
-    $query = "INSERT INTO `task` (`task`, `status`) VALUES ('$task', 'Pending')";
-    $result = mysqli_query($conn, $query);
+try {
+    // Prepare the SQL query with placeholders
+    $stmt = $conn->prepare("INSERT INTO task (task, status) VALUES (:task, :status)");
 
-    if ($result) {
-        header('Location: index.php'); // Redirect to the homepage
-        exit();
-    } else {
-        die("Error adding task: " . mysqli_error($conn));
-    }
-} else {
-    die("Task cannot be empty.");
+    // Bind parameters to prevent SQL injection
+    $stmt->bindParam(':task', $_POST['task']);
+    $stmt->bindParam(':status', $_POST['status']);
+
+    // Execute the query
+    $stmt->execute();
+
+    echo "Task added successfully!";
+} catch (PDOException $e) {
+    die("Error: " . $e->getMessage());
 }
 ?>
