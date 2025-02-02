@@ -45,5 +45,17 @@
                 echo '<a href="update_task.php?task_id=' . htmlspecialchars($fetch['task_id']) . '" class="btn-completed">Mark as Completed</a>';
               }
               ?>
-              <a href="delete_task.php?task_id
-              }
+              <a href="delete_task.php?task_id=<?php echo htmlspecialchars($fetch['task_id']); ?>" class="btn-remove">Delete</a>
+            </td>
+          </tr>
+        <?php
+          } // End of while loop
+        } catch (PDOException $e) {
+          die("Error: " . $e->getMessage());
+        }
+        ?>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
