@@ -5,7 +5,6 @@ $user = getenv('DB_USER');
 $password = getenv('DB_PASSWORD');
 
 try {
-    // Create a PDO connection string for PostgreSQL
     $dsn = "pgsql:host=$host;port=5432;dbname=$dbname";
     $conn = new PDO($dsn, $user, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
