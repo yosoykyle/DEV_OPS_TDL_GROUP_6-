@@ -4,6 +4,15 @@ FROM php:8.0-apache
 # Install necessary extensions
 RUN docker-php-ext-install mysqli
 
+# Enable Apache's mod_rewrite
+RUN a2enmod rewrite
+
+# Copy the custom Apache configuration file
+COPY apache-config.conf /etc/apache2/conf-available/servername.conf
+
+# Enable the custom servername configuration
+RUN a2enconf servername
+
 # Copy your project files to the Apache server's root
 COPY . /var/www/html/
 
