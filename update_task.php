@@ -1,16 +1,18 @@
-// update_task.php
-
 <?php
 require_once 'config.php';
 
-if ($_GET['task_id'] != "") {
-    $task_id = $_GET['task_id'];
+if (isset($_GET['task_id']) && !empty($_GET['task_id'])) {
+    $task_id = intval($_GET['task_id']);
+    $query = "UPDATE `task` SET `status` = 'Done' WHERE `task_id` = $task_id";
+    $result = mysqli_query($conn, $query);
 
-    $updatingtasks = 
-          mysqli_query($db, 
-            "UPDATE `task` SET `status` = 'Done' WHERE `task_id` = $task_id")
-        or
-        die(mysqli_error($db));
-    header('location: index.php');
+    if ($result) {
+        header('Location: index.php'); // Redirect to the homepage
+        exit();
+    } else {
+        die("Error updating task: " . mysqli_error($conn));
+    }
+} else {
+    die("Invalid task ID.");
 }
 ?>
